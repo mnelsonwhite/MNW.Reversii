@@ -7,11 +7,24 @@
 
 import SwiftUI
 
+
 @main
+
 struct ReversiiApp: App {
+    @StateObject private var user = UserModel()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Section() {
+                if self.user.isAuthorised {
+                    MainView()
+                }
+                else {
+                    LoginView()
+                }
+
+            }
+            .environmentObject(self.user)
         }
     }
 }
