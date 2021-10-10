@@ -13,28 +13,22 @@ struct LoginView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var user: UserModel
     
+    @State private var piece: Pieces = .white
+    
+    let timer = Timer.publish(every: 2 , on: .main, in: .common).autoconnect()
+    
     var body: some View {
         ZStack{
             VStack{
-                VStack{
-                    HStack{
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                        Image(systemName: "circle")
-                            .resizable()
-                            .scaledToFit()
+                PieceView(piece: self.$piece)
+                    .padding(100)
+                    .onReceive(timer) { input in
+                        self.piece = self.piece == .white ? .black : .white
                     }
-                    HStack{
-                        Image(systemName: "circle")
-                            .resizable()
-                            .scaledToFit()
-                        Image(systemName: "circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                    }
-                }
-                .padding(100)
+                
+                Text("REVERSII")
+                    .font(.system(.largeTitle))
+                
                 
                 Spacer()
                 
