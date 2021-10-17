@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Position: Equatable, Hashable {
+struct Position: Equatable, Hashable, Codable {
     let size: Int
     let ordinal: Int
     let x: Int
@@ -39,8 +39,8 @@ struct Position: Equatable, Hashable {
         return lhs.equalTo(rhs: rhs)
     }
     
-    static func +(position: Position, addPosition: (Int, Int)) -> Position {
-        return Position(x: position.x + addPosition.0, y: position.y + addPosition.1, size: position.size)
+    static func +(position: Position, addPosition: Cord) -> Position {
+        return Position(x: position.x + addPosition.x, y: position.y + addPosition.y, size: position.size)
     }
     
     func hash(into hasher: inout Hasher) {
@@ -48,7 +48,7 @@ struct Position: Equatable, Hashable {
         hasher.combine(self.size)
     }
     
-    func getLine(movement: (Int,Int)) -> [Position] {
+    func getLine(movement: Cord) -> [Position] {
         var tryPos = self + movement
         var result: [Position] = []
         while(tryPos.isValid()) {

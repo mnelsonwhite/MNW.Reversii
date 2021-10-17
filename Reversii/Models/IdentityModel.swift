@@ -14,13 +14,15 @@ struct IdentityModel: Codable {
     var givenName: String?
     var familyName: String?
     var email: String?
+    var token: Data?
     
     static func fromCredential(credential: ASAuthorizationAppleIDCredential) -> IdentityModel? {
         return IdentityModel(
             userId: credential.user,
             givenName: credential.fullName?.givenName,
             familyName: credential.fullName?.familyName,
-            email: credential.email)
+            email: credential.email,
+            token: credential.identityToken)
     }
     
     static func fromData(data: Data?) -> IdentityModel? {

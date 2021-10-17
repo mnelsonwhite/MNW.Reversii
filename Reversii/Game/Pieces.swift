@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Pieces {
-    case black
-    case white
+enum Pieces: Int, Codable {
+    case black = -1
+    case white = 1
 }

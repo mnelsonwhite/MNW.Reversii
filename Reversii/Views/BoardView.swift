@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct BoardView: View {
-    @StateObject var gameState: GameState
+    @Binding var gameState: GameState
     
     var body: some View {
         let validMoves = self.gameState.validMoves()
         GeometryReader { geometry in
             VStack(spacing: 3) {
-                ForEach(1 ..< self.gameState.size + 1) { y in
+                ForEach(1 ..< self.gameState.boardSize + 1) { y in
                     HStack(spacing: 3) {
-                        ForEach(1 ..< self.gameState.size + 1) { x in
-                            let position = Position(x: x, y: y, size: self.gameState.size)
+                        ForEach(1 ..< self.gameState.boardSize + 1) { x in
+                            let position = Position(x: x, y: y, size: self.gameState.boardSize)
                             
                             ZStack {
                                 Rectangle()
@@ -47,7 +47,7 @@ struct BoardView: View {
 
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
-        BoardView(gameState: GameState(size: 8))
+        BoardView(gameState: .constant(GameState()))
             .preferredColorScheme(.light)
     }
 }

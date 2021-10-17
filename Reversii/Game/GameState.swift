@@ -8,23 +8,45 @@
 import Foundation
 import SwiftUI
 
-class GameState: ObservableObject {
-    @Published var size: Int
-    @Published var pieces: [Pieces?]
-    @Published var turn: Pieces = .white
-    @Published var isGameOver: Bool = false
+struct GameState: Codable {
+    let id: UUID
+    let startTime: Date
+    let clockDuration: TimeInterval?
+    let boardSize: Int
+
+    var pieces: [Pieces?]
+    var playerTurn: Pieces
+    var isGameOver: Bool
+    var score: GameScore
+    var playerClock: PlayerClock?
     
-    private let _movements: [(Int, Int)] = [(1,0), (-1,0), (0,-1), (0,1), (1,-1), (1,1), (-1,-1), (-1,1)]
+    private static let _movements: [Cord] = [
+        Cord(x:1,y:0),
+        Cord(x:-1,y:0),
+        Cord(x:0,y:-1),
+        Cord(x:0,y:1),
+        Cord(x:1,y:-1),
+        Cord(x:1,y:1),
+        Cord(x:-1,y:-1),
+        Cord(x:-1,y:1)]
     
-    init(size: Int = 8) {
-        self.size = size
-        self.pieces = GameState.initialBoard(size: size)
+    init(boardSize: Int = 8, startTime: Date = Date(), clockDuration: TimeInterval? = nil) {
+        self.id = UUID.init()
+        self.startTime = startTime
+        self.clockDuration = clockDuration
+        self.boardSize = boardSize
+
+        self.pieces = GameState.initialBoard(size: boardSize)
+        self.playerTurn = .white
+        self.isGameOver = false
+        self.score = GameScore(white: 2, black: 2)
+        self.playerClock = clockDuration == nil ? nil : PlayerClock(white: clockDuration!, black: clockDuration!)
     }
     
     func validMoves(piece: Pieces? = nil) -> Set<Position> {
         var moves = Set<Position>()
         for ord in 0...self.pieces.count - 1 {
-            let position = Position(ordinal: ord, size: self.size)
+            let position = Position(ordinal: ord, size: self.boardSize)
             if !self.moveFlips(position: position, piece: piece).isEmpty {
                 moves.insert(position)
             }
@@ -41,17 +63,17 @@ class GameState: ObservableObject {
         }
         
         var tempFlips = Set<Position>()
-        _movements.forEach { movement in
+        GameState._movements.forEach { movement in
             tempFlips.removeAll()
             for tryPos in position.getLine(movement: movement) {
                 if !tryPos.isValid() ||
                     self.pieces[tryPos.ordinal] == nil ||
                     tempFlips.count == 0 &&
-                    self.pieces[tryPos.ordinal] == piece ?? self.turn {
+                    self.pieces[tryPos.ordinal] == piece ?? self.playerTurn {
 
                     break;
                 }
-                else if tempFlips.count > 0 && self.pieces[tryPos.ordinal] == piece ?? self.turn {
+                else if tempFlips.count > 0 && self.pieces[tryPos.ordinal] == piece ?? self.playerTurn {
                     flips = flips.union(tempFlips)
                     break;
                 }
@@ -64,31 +86,42 @@ class GameState: ObservableObject {
         return flips
     }
     
-    func tryPmove(position: Position) -> Bool {
+    mutating func tryPmove(position: Position) -> Bool {
         let flips = self.moveFlips(position: position)
         
         if flips.isEmpty {
             return false
         }
         
-        self.pieces[position.ordinal] = self.turn
+        self.pieces[position.ordinal] = self.playerTurn
         for flip in flips {
-            self.pieces[flip.ordinal] = self.turn
+            self.pieces[flip.ordinal] = self.playerTurn
         }
         
-        let opponentPiece: Pieces = self.turn == .white ? .black : .white
-        let currentHasNoMoves = self.validMoves(piece: self.turn).isEmpty
+        let opponentPiece: Pieces = self.playerTurn == .white ? .black : .white
+        let currentHasNoMoves = self.validMoves(piece: self.playerTurn).isEmpty
         let opponentHasNoMoves = self.validMoves(piece: opponentPiece).isEmpty
         
-        self.turn = opponentHasNoMoves ? self.turn : opponentPiece
+        self.playerTurn = opponentHasNoMoves ? self.playerTurn : opponentPiece
         self.isGameOver = currentHasNoMoves && opponentHasNoMoves
+        self.score = self.getScore()
         
         return true
     }
     
-    func reset() {
-        self.pieces = GameState.initialBoard(size: self.size)
-        self.isGameOver = false
+    private func getScore() -> GameScore {
+        var pieces = GameScore(white: 0, black: 0)
+
+        for piece in self.pieces {
+            if piece == .white {
+                pieces.white += 1
+            }
+            else if piece == .black {
+                pieces.black += 1
+            }
+        }
+        
+        return pieces
     }
     
     private static func initialBoard(size: Int) -> [Pieces?] {
@@ -102,4 +135,20 @@ class GameState: ObservableObject {
         
         return pieces
     }
+    
+    private static func getRandomPiece() -> Pieces {
+        return Int.random(in: 0...1) == 0 ? .white : .black
+    }
+    
+    struct GameScore: Codable {
+        var white: Int
+        var black: Int
+    }
+    
+    struct PlayerClock: Codable {
+        var white: TimeInterval
+        var black: TimeInterval
+    }
 }
+
+
