@@ -14,7 +14,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            
+            Text("Main View")
             /*if let gameState = self.game.games {
                 ZStack {
                     GameView(gameState: $gameState)

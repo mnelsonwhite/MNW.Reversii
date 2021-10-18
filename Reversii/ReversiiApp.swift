@@ -6,25 +6,28 @@
 //
 
 import SwiftUI
+import GameKit
 
 
 @main
 
 struct ReversiiApp: App {
-    @StateObject private var user = UserModel()
+    @State var isUserAuthenticated: Bool = false
     
     var body: some Scene {
         WindowGroup {
             Section() {
-                if self.user.isAuthorised {
-                    MainView()
+                ZStack {
+                    GameManagerView(isAuthenticated: self.$isUserAuthenticated)
+                    
+                    if self.isUserAuthenticated {
+                        MainView()
+                    }
+                    else {
+                        Text("Logging In")
+                    }
                 }
-                else {
-                    LoginView()
-                }
-
             }
-            .environmentObject(self.user)
         }
     }
 }

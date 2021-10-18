@@ -15,7 +15,7 @@ class GameCollection: ObservableObject {
         
     }
     
-    func startGame(gameState: GameState, player1: PlayerProto, player2: PlayerProto) {
+    func startGame(gameState: GameState) {
         self.games[gameState.id] = gameState
     }
     
