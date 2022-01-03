@@ -13,6 +13,7 @@ struct BoardView: View {
     var body: some View {
         let validMoves = self.gameState.validMoves()
         GeometryReader { geometry in
+            let size = min(geometry.size.width,geometry.size.height)
             VStack(spacing: 3) {
                 ForEach(1 ..< self.gameState.boardSize + 1) { y in
                     HStack(spacing: 3) {
@@ -40,7 +41,7 @@ struct BoardView: View {
                 }
             }
             .padding(3)
-            .frame(width: geometry.size.width, height: geometry.size.width, alignment: .center)
+            .frame(width: size, height: size, alignment: .center)
         }
     }
 }
@@ -48,6 +49,5 @@ struct BoardView: View {
 struct BoardView_Previews: PreviewProvider {
     static var previews: some View {
         BoardView(gameState: .constant(GameState()))
-            .preferredColorScheme(.light)
     }
 }

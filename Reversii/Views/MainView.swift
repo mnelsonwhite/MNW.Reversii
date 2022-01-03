@@ -9,33 +9,27 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    @Environment(\.colorScheme) var colorScheme
-    @StateObject var game = GameCollection()
+    
     
     var body: some View {
-        ZStack {
-            Text("Main View")
-            /*if let gameState = self.game.games {
-                ZStack {
-                    GameView(gameState: $gameState)
-                    
-                    if gameState.isGameOver {
-                        Text("Game Over")
-                            .font(.system(.largeTitle))
-                            .padding()
-                            .background(self.colorScheme == .light ? Color.black : Color.white)
-                            .foregroundColor(self.colorScheme == .light ? Color.white : Color.black)
-                            .clipShape(Capsule())
-                            .onTapGesture {
-                                self.game.clearGame()
-                            }
+        VStack {
+            NavigationView {
+                GamesView()
+                .toolbar {
+                    ToolbarItemGroup(placement: .bottomBar) {
+                        Spacer()
+                        NavigationLink(destination: ObserveView()) {
+                            Label("Observe", systemImage: "binoculars")
+                        }
+                        NavigationLink(destination: HistoryView()) {
+                            Label("History", systemImage: "text.book.closed")
+                        }
+                        NavigationLink(destination: RankingView()) {
+                            Label("Ranking", systemImage: "list.number")
+                        }
                     }
-                        
                 }
             }
-            else {
-                
-            }*/
         }
     }
 }
@@ -43,7 +37,6 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
-            .environmentObject(UserModel())
-            .preferredColorScheme(.dark)
+            
     }
 }

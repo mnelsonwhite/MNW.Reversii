@@ -9,6 +9,35 @@ import Foundation
 import GameKit
 import SwiftUI
 
+struct GameManagerView: UIViewControllerRepresentable {
+    @Binding var isAuthenticated: Bool
+    
+    class Coordinator: NSObject, UINavigationControllerDelegate, GameManagerControllerDelegate {
+        let parent: GameManagerView
+        
+        init(_ parent: GameManagerView) {
+            self.parent = parent
+        }
+        
+        func userAuthenticationChange(isUserAuthenticated: Bool) {
+            self.parent.isAuthenticated = isUserAuthenticated
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<GameManagerView>) -> GameManagerController {
+        let viewController = GameManagerController()
+        viewController.delegate = context.coordinator
+        return viewController
+    }
+    
+    func updateUIViewController(_ uiViewController: GameManagerController, context: UIViewControllerRepresentableContext<GameManagerView>) {
+    }
+}
+
 protocol GameManagerControllerDelegate: NSObjectProtocol {
     func userAuthenticationChange(isUserAuthenticated: Bool)
 }
@@ -44,36 +73,6 @@ class GameManagerController: UIViewController {
             if let delegate = self.delegate {
                 delegate.userAuthenticationChange(isUserAuthenticated: self.player.isAuthenticated)
             }
-            
         }
-    }
-}
-
-struct GameManagerView: UIViewControllerRepresentable {
-    @Binding var isAuthenticated: Bool
-    
-    class Coordinator: NSObject, UINavigationControllerDelegate, GameManagerControllerDelegate {
-        let parent: GameManagerView
-        
-        init(_ parent: GameManagerView) {
-            self.parent = parent
-        }
-        
-        func userAuthenticationChange(isUserAuthenticated: Bool) {
-            self.parent.isAuthenticated = isUserAuthenticated
-        }
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(self)
-    }
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<GameManagerView>) -> GameManagerController {
-        let viewController = GameManagerController()
-        viewController.delegate = context.coordinator
-        return viewController
-    }
-    
-    func updateUIViewController(_ uiViewController: GameManagerController, context: UIViewControllerRepresentableContext<GameManagerView>) {
     }
 }
