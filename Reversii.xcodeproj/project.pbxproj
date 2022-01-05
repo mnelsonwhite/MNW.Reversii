@@ -13,15 +13,14 @@
 		5F0474B32705C05E00BFB805 /* ReversiiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0474B22705C05E00BFB805 /* ReversiiTests.swift */; };
 		5F0474BD2705C05E00BFB805 /* ReversiiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0474BC2705C05E00BFB805 /* ReversiiUITests.swift */; };
 		5F0474BF2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0474BE2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift */; };
+		5F146CC5278317C3009D1D78 /* MatchMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F146CC4278317C3009D1D78 /* MatchMakerView.swift */; };
+		5F1EDC81278575BF00B25961 /* GameRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1EDC80278575BF00B25961 /* GameRequest.swift */; };
 		5F591ADC270C04370086497D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F591ADB270C04370086497D /* MainView.swift */; };
 		5F61EDFE2715B1DB00AABF2E /* Cord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F61EDFD2715B1DB00AABF2E /* Cord.swift */; };
 		5F61EE042715C14C00AABF2E /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F61EE032715C14C00AABF2E /* Move.swift */; };
 		5F7E1E6A2715916A00E9F7A8 /* ScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7E1E692715916A00E9F7A8 /* ScoreView.swift */; };
 		5F7E1E6C27159F4800E9F7A8 /* GameCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7E1E6B27159F4800E9F7A8 /* GameCollection.swift */; };
 		5F7E1E6E2715A24000E9F7A8 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7E1E6D2715A24000E9F7A8 /* GameView.swift */; };
-		5F8164752706F69500C100DD /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8164742706F69500C100DD /* UserModel.swift */; };
-		5FBC271C2782AB0F002A9A6A /* GameHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FBC271B2782AB0F002A9A6A /* GameHandler.swift */; };
-		5FD2C46427112A6800CE9454 /* IdentityModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2C46327112A6800CE9454 /* IdentityModel.swift */; };
 		5FD2C4682711B0A700CE9454 /* PieceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2C4672711B0A700CE9454 /* PieceView.swift */; };
 		5FD2C46B2711C64C00CE9454 /* Pieces.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2C46A2711C64C00CE9454 /* Pieces.swift */; };
 		5FD2C46D2711D7DE00CE9454 /* BoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD2C46C2711D7DE00CE9454 /* BoardView.swift */; };
@@ -64,6 +63,8 @@
 		5F0474B82705C05E00BFB805 /* ReversiiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReversiiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F0474BC2705C05E00BFB805 /* ReversiiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversiiUITests.swift; sourceTree = "<group>"; };
 		5F0474BE2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversiiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		5F146CC4278317C3009D1D78 /* MatchMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakerView.swift; sourceTree = "<group>"; };
+		5F1EDC80278575BF00B25961 /* GameRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameRequest.swift; sourceTree = "<group>"; };
 		5F591ADB270C04370086497D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5F61EDFD2715B1DB00AABF2E /* Cord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cord.swift; sourceTree = "<group>"; };
 		5F61EE032715C14C00AABF2E /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
@@ -71,9 +72,6 @@
 		5F7E1E6B27159F4800E9F7A8 /* GameCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollection.swift; sourceTree = "<group>"; };
 		5F7E1E6D2715A24000E9F7A8 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		5F81646C2706EE9A00C100DD /* Reversii.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Reversii.entitlements; sourceTree = "<group>"; };
-		5F8164742706F69500C100DD /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
-		5FBC271B2782AB0F002A9A6A /* GameHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameHandler.swift; sourceTree = "<group>"; };
-		5FD2C46327112A6800CE9454 /* IdentityModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityModel.swift; sourceTree = "<group>"; };
 		5FD2C4672711B0A700CE9454 /* PieceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PieceView.swift; sourceTree = "<group>"; };
 		5FD2C46A2711C64C00CE9454 /* Pieces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pieces.swift; sourceTree = "<group>"; };
 		5FD2C46C2711D7DE00CE9454 /* BoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardView.swift; sourceTree = "<group>"; };
@@ -125,6 +123,7 @@
 				5FFE032F271C42320046AD58 /* Frameworks */,
 			);
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		5F04749F2705C05E00BFB805 /* Products */ = {
 			isa = PBXGroup;
@@ -139,6 +138,7 @@
 		5F0474A02705C05E00BFB805 /* Reversii */ = {
 			isa = PBXGroup;
 			children = (
+				5FBC271D2782C058002A9A6A /* Infrastructure */,
 				5FBC271A2782AAF1002A9A6A /* Handlers */,
 				5FD2C4692711C63C00CE9454 /* Game */,
 				5F8164732706F68900C100DD /* Models */,
@@ -177,10 +177,19 @@
 			path = ReversiiUITests;
 			sourceTree = "<group>";
 		};
+		5F146CC627831840009D1D78 /* UiKit */ = {
+			isa = PBXGroup;
+			children = (
+				5F146CC4278317C3009D1D78 /* MatchMakerView.swift */,
+				5FFE0334271C488A0046AD58 /* GameManagerView.swift */,
+			);
+			path = UiKit;
+			sourceTree = "<group>";
+		};
 		5F81646D2706F12300C100DD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5FFE0334271C488A0046AD58 /* GameManagerView.swift */,
+				5F146CC627831840009D1D78 /* UiKit */,
 				5FD2C46C2711D7DE00CE9454 /* BoardView.swift */,
 				5F591ADB270C04370086497D /* MainView.swift */,
 				5FD2C4672711B0A700CE9454 /* PieceView.swift */,
@@ -198,8 +207,6 @@
 		5F8164732706F68900C100DD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5F8164742706F69500C100DD /* UserModel.swift */,
-				5FD2C46327112A6800CE9454 /* IdentityModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -207,9 +214,15 @@
 		5FBC271A2782AAF1002A9A6A /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				5FBC271B2782AB0F002A9A6A /* GameHandler.swift */,
 			);
 			path = Handlers;
+			sourceTree = "<group>";
+		};
+		5FBC271D2782C058002A9A6A /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		5FD2C4692711C63C00CE9454 /* Game */ = {
@@ -221,6 +234,7 @@
 				5F7E1E6B27159F4800E9F7A8 /* GameCollection.swift */,
 				5F61EDFD2715B1DB00AABF2E /* Cord.swift */,
 				5F61EE032715C14C00AABF2E /* Move.swift */,
+				5F1EDC80278575BF00B25961 /* GameRequest.swift */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -375,10 +389,10 @@
 				5FFE033B271D81EF0046AD58 /* RankingView.swift in Sources */,
 				5FD2C4712711DCCF00CE9454 /* Position.swift in Sources */,
 				5FFE0337271D802E0046AD58 /* GamesView.swift in Sources */,
-				5F8164752706F69500C100DD /* UserModel.swift in Sources */,
+				5F1EDC81278575BF00B25961 /* GameRequest.swift in Sources */,
+				5F146CC5278317C3009D1D78 /* MatchMakerView.swift in Sources */,
 				5F591ADC270C04370086497D /* MainView.swift in Sources */,
 				5FD2C4682711B0A700CE9454 /* PieceView.swift in Sources */,
-				5FD2C46427112A6800CE9454 /* IdentityModel.swift in Sources */,
 				5FFE033F271D8D620046AD58 /* CreateGameView.swift in Sources */,
 				5FD2C46D2711D7DE00CE9454 /* BoardView.swift in Sources */,
 				5FFE033D271D82790046AD58 /* ObserveView.swift in Sources */,
@@ -388,7 +402,6 @@
 				5FD2C46F2711D80300CE9454 /* GameState.swift in Sources */,
 				5FD2C46B2711C64C00CE9454 /* Pieces.swift in Sources */,
 				5F7E1E6E2715A24000E9F7A8 /* GameView.swift in Sources */,
-				5FBC271C2782AB0F002A9A6A /* GameHandler.swift in Sources */,
 				5F0474A22705C05E00BFB805 /* ReversiiApp.swift in Sources */,
 				5FFE0339271D81C90046AD58 /* HistoryView.swift in Sources */,
 				5F61EDFE2715B1DB00AABF2E /* Cord.swift in Sources */,
@@ -570,7 +583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MNW.Reversii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -604,7 +617,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = MNW.Reversii;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -14,6 +14,7 @@ struct GamesView: View {
     var body: some View {
         ScrollView {
             VStack {
+                
                 CreateGameView()
             }
         }.navigationTitle("Games")

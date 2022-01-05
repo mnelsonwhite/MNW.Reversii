@@ -6,36 +6,47 @@
 //
 
 import SwiftUI
+import GameKit
 
 struct CreateGameView: View {
-    @State private var random: Bool = true
-    @State private var opponent: String = ""
     @State private var rated: Bool = true
-    @State private var clock: Int = 5
+    @State private var clockTime: Int = 5
+    @State private var voiceEnabled: Bool = false
     
     var body: some View {
-        Form {
-            Section {
-                Toggle("Random Opponent", isOn: self.$random)
-                if !self.random {
-                    TextField("Invite Opponent", text: self.$opponent)
+        NavigationView {
+            Form {
+                Section {
+                    Toggle("Voice Enabled", isOn: self.$voiceEnabled)
+                    Toggle("Rated Game", isOn: self.$rated)
+                    Picker("Game Clock", selection: $clockTime) {
+                        Text("Unlimited").tag(0)
+                        Text("1 Minute").tag(1)
+                        Text("2 Minutes").tag(2)
+                        Text("3 Minutes").tag(3)
+                        Text("5 Minutes").tag(5)
+                        Text("10 Minutes").tag(10)
+                        Text("15 Minutes").tag(15)
+                    }
+                    NavigationLink(destination: createGame) {
+                        Text("Find Match")
+                    }
                 }
-                Toggle("Rated Game", isOn: self.$rated)
-                Picker("Game Clock", selection: $clock) {
-                    Text("Unlimited").tag(0)
-                    Text("1 Minute").tag(1)
-                    Text("2 Minutes").tag(2)
-                    Text("3 Minutes").tag(3)
-                    Text("5 Minutes").tag(5)
-                    Text("10 Minutes").tag(10)
-                    Text("15 Minutes").tag(15)
-                }
-                Button(action : {
-                }, label: {
-                    Text("Create Game")
-                })
             }
-        }.scaledToFit()
+        }.scaledToFill()
+    }
+    
+    private func createGame() -> MatchMakerView {
+        return MatchMakerView(
+            request: GameRequest(
+                rated: self.rated,
+                voiceEnabled: self.voiceEnabled,
+                clockTime: self.clockTime
+            ),
+            started: {match in
+                print(match)
+            }
+        )
     }
 }
 

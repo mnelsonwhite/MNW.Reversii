@@ -22,6 +22,4 @@ class GameCollection: ObservableObject {
     func clearGame(id: UUID) {
         self.games.removeValue(forKey: id)
     }
-    
-    
 }
