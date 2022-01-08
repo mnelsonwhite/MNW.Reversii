@@ -17,20 +17,18 @@ struct CreateGameView: View {
         NavigationView {
             Form {
                 Section {
-                    Toggle("Voice Enabled", isOn: self.$voiceEnabled)
+                    // Toggle("Voice Enabled", isOn: self.$voiceEnabled)
                     Toggle("Rated Game", isOn: self.$rated)
-                    Picker("Game Clock", selection: $clockTime) {
+                    Picker("Clock Time", selection: $clockTime) {
                         Text("Unlimited").tag(0)
                         Text("1 Minute").tag(1)
-                        Text("2 Minutes").tag(2)
-                        Text("3 Minutes").tag(3)
                         Text("5 Minutes").tag(5)
                         Text("10 Minutes").tag(10)
                         Text("15 Minutes").tag(15)
                     }
-                    NavigationLink(destination: createGame) {
-                        Text("Find Match")
-                    }
+                }
+                NavigationLink(destination: createGame) {
+                    Text("Find Match")
                 }
             }
         }.scaledToFill()
@@ -38,7 +36,7 @@ struct CreateGameView: View {
     
     private func createGame() -> MatchMakerView {
         return MatchMakerView(
-            request: GameRequest(
+            request: GameOptions(
                 rated: self.rated,
                 voiceEnabled: self.voiceEnabled,
                 clockTime: self.clockTime

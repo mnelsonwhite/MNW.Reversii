@@ -12,15 +12,17 @@ import SwiftUI
 // https://github.com/SwiftPackageRepository/GameKitUI.swift
 struct MatchMakerView: UIViewControllerRepresentable {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    private let request: GameRequest
+    private let request: GameOptions
     private let cancelled: () -> Void
     private let failed: (Error) -> Void
-    private let started: (GKMatch) -> Void
+    private let started: (GKTurnBasedMatch) -> Void
     
-    init(request: GameRequest,
-         cancelled: @escaping () -> Void = {},
-         failed: @escaping (Error) -> Void = {_ in },
-         started: @escaping (GKMatch) -> Void = {_ in }) {
+    init(
+        request: GameOptions,
+        cancelled: @escaping () -> Void = {},
+        failed: @escaping (Error) -> Void = {_ in },
+        started: @escaping (GKTurnBasedMatch) -> Void = {_ in }
+    ) {
         self.request = request
         self.cancelled = cancelled
         self.failed = failed
@@ -31,7 +33,7 @@ struct MatchMakerView: UIViewControllerRepresentable {
         Coordinator(self)
     }
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<MatchMakerView>) -> GKMatchmakerViewController {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<MatchMakerView>) -> GKTurnBasedMatchmakerViewController {
         let gkRequest = GKMatchRequest()
         gkRequest.minPlayers = 2
         gkRequest.maxPlayers = 2
@@ -39,55 +41,53 @@ struct MatchMakerView: UIViewControllerRepresentable {
         gkRequest.inviteMessage = "Play Reversi"
         gkRequest.playerGroup = self.request.toInt()
         
-        let matchmakerViewController = GKMatchmakerViewController(matchRequest: gkRequest)
-        matchmakerViewController!.matchmakerDelegate = context.coordinator
-        return matchmakerViewController!
+        let matchmakerViewController = GKTurnBasedMatchmakerViewController(matchRequest: gkRequest)
+        matchmakerViewController.turnBasedMatchmakerDelegate = context.coordinator
+        return matchmakerViewController
     }
     
     func updateUIViewController(_ uiViewController: GameManagerController, context: UIViewControllerRepresentableContext<GameManagerView>) { }
+    func updateUIViewController(_ uiViewController: GKTurnBasedMatchmakerViewController, context: Context) { }
     
-    func updateUIViewController(_ uiViewController: GKMatchmakerViewController, context: Context) { }
-    
-    class Coordinator: NSObject, UINavigationControllerDelegate, GKMatchmakerViewControllerDelegate {
+    class Coordinator: NSObject, UINavigationControllerDelegate, GKTurnBasedMatchmakerViewControllerDelegate, GKMatchDelegate {
+        
         let parent: MatchMakerView
         
         init(_ parent: MatchMakerView) {
             self.parent = parent
         }
         
-        func matchmakerViewControllerWasCancelled(_ viewController: GKMatchmakerViewController) {
+        func turnBasedMatchmakerViewControllerWasCancelled(_ viewController: GKTurnBasedMatchmakerViewController) {
             viewController.dismiss(
                 animated: true,
                 completion: {
                     self.parent.cancelled()
                     viewController.removeFromParent()
                     self.parent.presentationMode.wrappedValue.dismiss()
-            })
-            
+                }
+            )
         }
         
-        func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFailWithError error: Error) {
+        func turnBasedMatchmakerViewController(_ viewController: GKTurnBasedMatchmakerViewController, didFailWithError error: Error) {
             viewController.dismiss(
                 animated: true,
                 completion: {
                     self.parent.failed(error)
                     viewController.removeFromParent()
                     self.parent.presentationMode.wrappedValue.dismiss()
-            })
+                }
+            )
         }
         
-        func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKMatch) {
+        func matchmakerViewController(_ viewController: GKMatchmakerViewController, didFind match: GKTurnBasedMatch) {
             viewController.dismiss(
                 animated: true,
                 completion: {
                     self.parent.started(match)
                     viewController.removeFromParent()
                     self.parent.presentationMode.wrappedValue.dismiss()
-            })
+                }
+            )
         }
-    }
-    
-    enum MatchMakerError: Error {
-        case unableToCreate
     }
 }

@@ -9,7 +9,6 @@ import Foundation
 import SwiftUI
 
 struct GameState: Codable {
-    let id: UUID
     let startTime: Date
     let clockDuration: TimeInterval?
     let boardSize: Int
@@ -19,6 +18,9 @@ struct GameState: Codable {
     var isGameOver: Bool
     var score: GameScore
     var playerClock: PlayerClock?
+    
+    var whitePlayerId: String?
+    var blackPlayerId: String?
     
     private static let _movements: [Cord] = [
         Cord(x:1,y:0),
@@ -30,8 +32,13 @@ struct GameState: Codable {
         Cord(x:-1,y:-1),
         Cord(x:-1,y:1)]
     
-    init(boardSize: Int = 8, startTime: Date = Date(), clockDuration: TimeInterval? = nil) {
-        self.id = UUID.init()
+    init(
+        boardSize: Int = 8,
+        startTime: Date = Date(),
+        clockDuration: TimeInterval? = nil,
+        whitePlayerId: String? = nil,
+        blackPlayerId: String? = nil
+    ) {
         self.startTime = startTime
         self.clockDuration = clockDuration
         self.boardSize = boardSize
@@ -41,6 +48,9 @@ struct GameState: Codable {
         self.isGameOver = false
         self.score = GameScore(white: 2, black: 2)
         self.playerClock = clockDuration == nil ? nil : PlayerClock(white: clockDuration!, black: clockDuration!)
+        
+        self.whitePlayerId = whitePlayerId
+        self.blackPlayerId = blackPlayerId
     }
     
     func validMoves(piece: Pieces? = nil) -> Set<Position> {
@@ -149,6 +159,14 @@ struct GameState: Codable {
         var white: TimeInterval
         var black: TimeInterval
     }
+    
+    func encode() throws -> Data {
+        let encoder = JSONEncoder()
+        return try encoder.encode(self)
+    }
+    
+    static func decode(_ data: Data) throws -> GameState {
+        let decoder = JSONDecoder()
+        return try decoder.decode(GameState.self, from: data)
+    }
 }
-
-

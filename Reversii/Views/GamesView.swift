@@ -9,7 +9,7 @@ import SwiftUI
 
 struct GamesView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var game = GameCollection()
+    @StateObject var matches = MatchManager()
     
     var body: some View {
         ScrollView {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GameRequest {
+struct GameOptions {
     let rated: Bool
     let voiceEnabled: Bool
     let clockTime: Int
@@ -17,14 +17,17 @@ struct GameRequest {
     }
     
     func toInt() -> Int {
-        return (self.rated ? 1 : 0) | (self.voiceEnabled ? 1 << 1 : 0) | ((self.clockTime & 0b11111) << 2)
+        return
+            (self.rated ? 1 : 0) |
+            (self.voiceEnabled ? 1 << 1 : 0) |
+            ((self.clockTime & 0b1111) << 2)
     }
     
-    static func fromInt(value: Int) -> GameRequest {
-        return GameRequest(
+    static func fromInt(value: Int) -> GameOptions {
+        return GameOptions(
             rated: value & 1 > 0,
             voiceEnabled: value & 1 << 1 > 0,
-            clockTime: (value >> 2) & 0b11111
+            clockTime: (value >> 2) & 0b1111
         )
     }
 }
