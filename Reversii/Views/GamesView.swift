@@ -9,13 +9,22 @@ import SwiftUI
 
 struct GamesView: View {
     @Environment(\.colorScheme) var colorScheme
-    @StateObject var matches = MatchManager()
+    var matchManager = MatchManager()
     
     var body: some View {
         ScrollView {
             VStack {
-                
-                CreateGameView()
+                ForEach(Array(self.matchManager.gameStates.keys).sorted(by: <), id: \.self) { key in
+                    VStack {
+                        Text(key)
+                        if let gameState = self.matchManager.gameStates[key] {
+                            GameView(gameState: gameState)
+                        }
+                    }
+                }
+                CreateGameView(createGame: { id, gameState in
+                    self.matchManager.addMatch(id, gameState: gameState)
+                })
             }
         }.navigationTitle("Games")
     }

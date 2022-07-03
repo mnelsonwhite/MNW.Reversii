@@ -10,7 +10,9 @@ import Foundation
 struct GameOptions {
     let rated: Bool
     let voiceEnabled: Bool
+    let playComputer: Bool
     let clockTime: Int
+    
     
     enum ClockTimes: Int {
         case unlimited = 0
@@ -27,7 +29,8 @@ struct GameOptions {
         return GameOptions(
             rated: value & 1 > 0,
             voiceEnabled: value & 1 << 1 > 0,
-            clockTime: (value >> 2) & 0b1111
+            playComputer: value & 1 << 2 > 0,
+            clockTime: (value >> 3) & 0b1111
         )
     }
 }

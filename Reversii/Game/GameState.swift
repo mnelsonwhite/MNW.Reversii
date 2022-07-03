@@ -9,18 +9,20 @@ import Foundation
 import SwiftUI
 
 struct GameState: Codable {
-    let startTime: Date
-    let clockDuration: TimeInterval?
-    let boardSize: Int
-
+    var boardSize: Int = 8
     var pieces: [Pieces?]
     var playerTurn: Pieces
     var isGameOver: Bool
     var score: GameScore
-    var playerClock: PlayerClock?
     
-    var whitePlayerId: String?
-    var blackPlayerId: String?
+    private var onMove: (GameState) -> Void = {_ in}
+    
+    private enum CodingKeys : String, CodingKey {
+        case pieces
+        case playerTurn
+        case isGameOver
+        case score
+    }
     
     private static let _movements: [Cord] = [
         Cord(x:1,y:0),
@@ -30,27 +32,29 @@ struct GameState: Codable {
         Cord(x:1,y:-1),
         Cord(x:1,y:1),
         Cord(x:-1,y:-1),
-        Cord(x:-1,y:1)]
+        Cord(x:-1,y:1)
+    ]
     
-    init(
-        boardSize: Int = 8,
-        startTime: Date = Date(),
-        clockDuration: TimeInterval? = nil,
-        whitePlayerId: String? = nil,
-        blackPlayerId: String? = nil
-    ) {
-        self.startTime = startTime
-        self.clockDuration = clockDuration
-        self.boardSize = boardSize
-
+    init() {
         self.pieces = GameState.initialBoard(size: boardSize)
         self.playerTurn = .white
         self.isGameOver = false
         self.score = GameScore(white: 2, black: 2)
-        self.playerClock = clockDuration == nil ? nil : PlayerClock(white: clockDuration!, black: clockDuration!)
-        
-        self.whitePlayerId = whitePlayerId
-        self.blackPlayerId = blackPlayerId
+    }
+    
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.pieces = try values.decode([Pieces?].self, forKey: .pieces)
+        self.playerTurn = try values.decode(Pieces.self, forKey: .playerTurn)
+        self.isGameOver = try values.decode(Bool.self, forKey: .isGameOver)
+        self.score = try values.decode(GameScore.self, forKey: .score)
+    }
+    
+    private init(pieces: [Pieces?], playerTurn: Pieces, isGameOver: Bool, score: GameScore) {
+        self.pieces = pieces
+        self.playerTurn = playerTurn
+        self.isGameOver = isGameOver
+        self.score = score
     }
     
     func validMoves(piece: Pieces? = nil) -> Set<Position> {
@@ -65,7 +69,10 @@ struct GameState: Codable {
         return moves
     }
     
-    func moveFlips(position: Position, piece: Pieces? = nil) -> Set<Position> {
+    func moveFlips(
+        position: Position,
+        piece: Pieces? = nil
+    ) -> Set<Position> {
         var flips = Set<Position>()
 
         if !position.isValid() || self.pieces[position.ordinal] != nil {
@@ -116,7 +123,13 @@ struct GameState: Codable {
         self.isGameOver = currentHasNoMoves && opponentHasNoMoves
         self.score = self.getScore()
         
+        self.onMove(self)
+        
         return true
+    }
+    
+    mutating func registerOnMove(onMoveDelegate: @escaping (GameState) -> Void) {
+        self.onMove = onMoveDelegate
     }
     
     private func getScore() -> GameScore {
@@ -151,22 +164,67 @@ struct GameState: Codable {
     }
     
     struct GameScore: Codable {
-        var white: Int
-        var black: Int
-    }
-    
-    struct PlayerClock: Codable {
-        var white: TimeInterval
-        var black: TimeInterval
+        var white: UInt64
+        var black: UInt64
     }
     
     func encode() throws -> Data {
-        let encoder = JSONEncoder()
-        return try encoder.encode(self)
+        var misc: UInt64 = 0
+        var white: UInt64 = 0
+        var black: UInt64 = 0
+        
+        misc |= (self.isGameOver ? 1 : 0)
+        misc |= (self.playerTurn == Pieces.white ? 0 : 1) << 1
+        
+        for index in 0...63 {
+            white |= (self.pieces[index] == Pieces.white ? 1 : 0) << index
+            black |= (self.pieces[index] == Pieces.black ? 1 : 0) << index
+        }
+        
+        return withUnsafeBytes(of: [misc, self.score.white, self.score.black, white, black]) { Data($0) }
     }
     
     static func decode(_ data: Data) throws -> GameState {
-        let decoder = JSONDecoder()
-        return try decoder.decode(GameState.self, from: data)
+        var values = Array<UInt64>(repeating: 0, count: 5)
+        if (data.count != values.count * UInt64.bitWidth) {
+            throw DecodingError()
+        }
+        _ = values.withUnsafeMutableBytes { data.copyBytes(to: $0 ) }
+        
+        let misc = values[0]
+        let whiteScore = values[1]
+        let blackScore = values[2]
+        let white = values[3]
+        let black = values[4]
+        
+        var pieces:[Pieces?] = Array(repeating: nil, count: 64)
+        
+        for index in 0...64 {
+            if ((white >> index) & 1 == 1) {
+                pieces[index] = Pieces.white
+            }
+            else if ((black >> index) & 1 == 1) {
+                pieces[index] = Pieces.black
+            }
+        }
+        
+        return GameState(
+            pieces: pieces,
+            playerTurn: misc >> 1 & 1 == 1 ? Pieces.white : Pieces.black,
+            isGameOver: misc >> 0 & 1 == 1,
+            score: GameScore(white: whiteScore, black: blackScore)
+        )
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.pieces, forKey: .pieces)
+        try container.encode(self.playerTurn, forKey: .playerTurn)
+        try container.encode(self.isGameOver, forKey: .isGameOver)
+        try container.encode(self.score, forKey: .score)
+    }
+    
+    class DecodingError : Error {
+        
     }
 }

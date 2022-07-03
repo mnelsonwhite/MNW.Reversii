@@ -34,12 +34,17 @@ struct MatchMakerView: UIViewControllerRepresentable {
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<MatchMakerView>) -> GKTurnBasedMatchmakerViewController {
+        
         let gkRequest = GKMatchRequest()
         gkRequest.minPlayers = 2
         gkRequest.maxPlayers = 2
         gkRequest.defaultNumberOfPlayers = 2
         gkRequest.inviteMessage = "Play Reversi"
         gkRequest.playerGroup = self.request.toInt()
+        
+        if (self.request.playComputer) {
+            gkRequest.recipients = [GKLocalPlayer.anonymousGuestPlayer(withIdentifier: UUID.init().uuidString)]
+        }
         
         let matchmakerViewController = GKTurnBasedMatchmakerViewController(matchRequest: gkRequest)
         matchmakerViewController.turnBasedMatchmakerDelegate = context.coordinator

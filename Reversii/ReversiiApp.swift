@@ -13,15 +13,18 @@ import GameKit
 
 struct ReversiiApp: App {
     @State var isUserAuthenticated: Bool = false
+    private let gameManager: GameManager = GameManager()
     
     var body: some Scene {
         WindowGroup {
             Section() {
                 ZStack {
-                    GameManagerView(isAuthenticated: self.$isUserAuthenticated)
+                    GameManagerView(
+                        isAuthenticated: self.$isUserAuthenticated
+                    )
                     
                     if self.isUserAuthenticated {
-                        MainView()
+                        MainView(gameManager: GameManager())
                     }
                     else {
                         Text("Logging In")

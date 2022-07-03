@@ -9,54 +9,63 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    @State private var activeView = Views.games
+    @State var createGame: Bool = false
+    @ObservedObject var gameManager: GameManager
     
     var body: some View {
-        NavigationView {
-            switch self.activeView {
-                case Views.ranking: RankingView()
-                case Views.history: HistoryView()
-                case Views.observe: ObserveView()
-                case Views.games: GamesView()
-            }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                Spacer()
-                Button {
-                    self.activeView = Views.games
-                } label: {
-                    Label("Games", systemImage: "gamecontroller")
-                }
-                Button {
-                    self.activeView = Views.observe
-                } label: {
-                    Label("Observe", systemImage: "binoculars")
-                }
-                Button {
-                    self.activeView = Views.history
-                } label: {
-                    Label("History", systemImage: "text.book.closed")
-                }
-                Button {
-                    self.activeView = Views.ranking
-                } label: {
-                    Label("Ranking", systemImage: "list.number")
+        
+        
+        ZStack {
+            ScrollView {
+                VStack {
+                    Button("Create Game") {
+                        self.createGame = true
+                    }
+                    
+                    ForEach(self.gameManager.games.sorted(by: {a,b in a.key > b.key}), id: \.key) { key, value in
+                        Section(header: Text(key)) {
+                            GameView(gameState: value)
+                                .scaledToFill()
+
+                        }
+                    }
                 }
             }
+            
+            if(createGame) {
+                MatchMakerView(
+                    request: GameOptions(
+                        rated: false,
+                        voiceEnabled: false,
+                        playComputer: true,
+                        clockTime: 0
+                    ),
+                    cancelled: {
+                        self.createGame = false
+                    },
+                    failed: { error in
+                        print(error)
+                        self.createGame = false
+                    },
+                    started: { match in
+                        print(match)
+                        self.createGame = false
+                    }
+                )
+            }
         }
-    }
-    
-    private enum Views: Int, Codable {
-        case games = 0
-        case observe = 1
-        case history = 2
-        case ranking = 3
+        
     }
 }
 
 struct MainView_Previews: PreviewProvider {
+    static func GetGameManager() -> GameManager {
+        let gameManager = GameManager()
+        gameManager.games["test game"] = GameState()
+        return gameManager
+    }
+    
     static var previews: some View {
-        MainView()
+        MainView(gameManager: GetGameManager())
     }
 }
