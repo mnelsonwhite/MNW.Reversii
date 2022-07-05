@@ -14,6 +14,7 @@
 		5F0474BD2705C05E00BFB805 /* ReversiiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0474BC2705C05E00BFB805 /* ReversiiUITests.swift */; };
 		5F0474BF2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F0474BE2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift */; };
 		5F146CC5278317C3009D1D78 /* MatchMakerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F146CC4278317C3009D1D78 /* MatchMakerView.swift */; };
+		5F188F512872F74A0034537C /* ComputerPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F188F502872F74A0034537C /* ComputerPlayer.swift */; };
 		5F1EDC81278575BF00B25961 /* GameOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F1EDC80278575BF00B25961 /* GameOptions.swift */; };
 		5F591ADC270C04370086497D /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F591ADB270C04370086497D /* MainView.swift */; };
 		5F5A639A28712EC6002FCBAF /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A639928712EC6002FCBAF /* GameManager.swift */; };
@@ -59,6 +60,7 @@
 		5F0474BC2705C05E00BFB805 /* ReversiiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversiiUITests.swift; sourceTree = "<group>"; };
 		5F0474BE2705C05E00BFB805 /* ReversiiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReversiiUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5F146CC4278317C3009D1D78 /* MatchMakerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchMakerView.swift; sourceTree = "<group>"; };
+		5F188F502872F74A0034537C /* ComputerPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComputerPlayer.swift; sourceTree = "<group>"; };
 		5F1EDC80278575BF00B25961 /* GameOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOptions.swift; sourceTree = "<group>"; };
 		5F591ADB270C04370086497D /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5F5A639928712EC6002FCBAF /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				5F5A639928712EC6002FCBAF /* GameManager.swift */,
+				5F188F502872F74A0034537C /* ComputerPlayer.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				5F7E1E6A2715916A00E9F7A8 /* ScoreView.swift in Sources */,
 				5FD2C46F2711D80300CE9454 /* GameState.swift in Sources */,
 				5FD2C46B2711C64C00CE9454 /* Pieces.swift in Sources */,
+				5F188F512872F74A0034537C /* ComputerPlayer.swift in Sources */,
 				5F5A639A28712EC6002FCBAF /* GameManager.swift in Sources */,
 				5F7E1E6E2715A24000E9F7A8 /* GameView.swift in Sources */,
 				5F0474A22705C05E00BFB805 /* ReversiiApp.swift in Sources */,

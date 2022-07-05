@@ -11,7 +11,7 @@ import SwiftUI
 
 struct GameManagerView: UIViewControllerRepresentable {
     @Binding var isAuthenticated: Bool
-    let onAuthenticated: () -> Void = {}
+    let onAuthenticated: () -> Void
     
     class Coordinator: NSObject, UINavigationControllerDelegate, GameManagerControllerDelegate {
         let parent: GameManagerView
@@ -21,6 +21,10 @@ struct GameManagerView: UIViewControllerRepresentable {
         }
         
         func userAuthenticationChange(isUserAuthenticated: Bool) {
+            if self.parent.isAuthenticated == isUserAuthenticated {
+                return
+            }
+            
             self.parent.isAuthenticated = isUserAuthenticated
             if (isUserAuthenticated) {
                 self.parent.onAuthenticated()

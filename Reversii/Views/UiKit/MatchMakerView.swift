@@ -16,17 +16,20 @@ struct MatchMakerView: UIViewControllerRepresentable {
     private let cancelled: () -> Void
     private let failed: (Error) -> Void
     private let started: (GKTurnBasedMatch) -> Void
+    private let computerPlayer: ComputerPlayer
     
     init(
         request: GameOptions,
         cancelled: @escaping () -> Void = {},
         failed: @escaping (Error) -> Void = {_ in },
-        started: @escaping (GKTurnBasedMatch) -> Void = {_ in }
+        started: @escaping (GKTurnBasedMatch) -> Void = {_ in },
+        computerPlayer: ComputerPlayer
     ) {
         self.request = request
         self.cancelled = cancelled
         self.failed = failed
         self.started = started
+        self.computerPlayer = computerPlayer
     }
     
     func makeCoordinator() -> Coordinator {
@@ -43,7 +46,9 @@ struct MatchMakerView: UIViewControllerRepresentable {
         gkRequest.playerGroup = self.request.toInt()
         
         if (self.request.playComputer) {
-            gkRequest.recipients = [GKLocalPlayer.anonymousGuestPlayer(withIdentifier: UUID.init().uuidString)]
+            if let player = self.computerPlayer.player {
+                gkRequest.recipients = [player]
+            }
         }
         
         let matchmakerViewController = GKTurnBasedMatchmakerViewController(matchRequest: gkRequest)

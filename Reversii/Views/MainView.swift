@@ -11,10 +11,9 @@ import SwiftUI
 struct MainView: View {
     @State var createGame: Bool = false
     @ObservedObject var gameManager: GameManager
+    let computerPlayer: ComputerPlayer
     
     var body: some View {
-        
-        
         ZStack {
             ScrollView {
                 VStack {
@@ -22,12 +21,18 @@ struct MainView: View {
                         self.createGame = true
                     }
                     
+                    Divider()
+                    
                     ForEach(self.gameManager.games.sorted(by: {a,b in a.key > b.key}), id: \.key) { key, value in
-                        Section(header: Text(key)) {
-                            GameView(gameState: value)
-                                .scaledToFill()
-
+                        GameView(gameState: value)
+                        Button("Remove Game") {
+                            self.gameManager.remove(matchId: key)
                         }
+                        Divider()
+                    }
+                    
+                    if self.gameManager.games.isEmpty {
+                        Text("No games")
                     }
                 }
             }
@@ -50,7 +55,8 @@ struct MainView: View {
                     started: { match in
                         print(match)
                         self.createGame = false
-                    }
+                    },
+                    computerPlayer: self.computerPlayer
                 )
             }
         }
@@ -66,6 +72,6 @@ struct MainView_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        MainView(gameManager: GetGameManager())
+        MainView(gameManager: GetGameManager(), computerPlayer: ComputerPlayer())
     }
 }

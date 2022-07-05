@@ -14,8 +14,10 @@ struct GameState: Codable {
     var playerTurn: Pieces
     var isGameOver: Bool
     var score: GameScore
+    var isPlayerMove: Bool = true
     
     private var onMove: (GameState) -> Void = {_ in}
+   
     
     private enum CodingKeys : String, CodingKey {
         case pieces
@@ -103,7 +105,7 @@ struct GameState: Codable {
         return flips
     }
     
-    mutating func tryPmove(position: Position) -> Bool {
+    mutating func tryMove(position: Position) -> Bool {
         let flips = self.moveFlips(position: position)
         
         if flips.isEmpty {
@@ -124,6 +126,7 @@ struct GameState: Codable {
         self.score = self.getScore()
         
         self.onMove(self)
+        self.isPlayerMove = false
         
         return true
     }
@@ -187,7 +190,7 @@ struct GameState: Codable {
     static func decode(_ data: Data) throws -> GameState {
         var values = Array<UInt64>(repeating: 0, count: 5)
         if (data.count != values.count * UInt64.bitWidth) {
-            throw DecodingError()
+            //throw DecodingError()
         }
         _ = values.withUnsafeMutableBytes { data.copyBytes(to: $0 ) }
         

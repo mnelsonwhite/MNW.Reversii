@@ -23,17 +23,18 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D41ED21C-33B6-48D3-AEBF-B95D936E58D8"
+            uuid = "B2187648-ABFB-4BB1-9ACA-AD4A9F728AE8"
             shouldBeEnabled = "Yes"
+            condition = "-[NSObject(NSObject) doesNotRecognizeSelector:]"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Reversii/Views/UiKit/MatchMakerView.swift"
+            filePath = "Reversii/Utility/ComputerPlayer.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "88"
-            endingLineNumber = "88"
-            landmarkName = "matchmakerViewController(_:didFind:)"
-            landmarkType = "7">
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "register()"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

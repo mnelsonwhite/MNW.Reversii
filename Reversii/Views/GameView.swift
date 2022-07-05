@@ -15,6 +15,7 @@ struct GameView: View {
             VStack {
                 ScoreView(gameState: self.$gameState)
                 BoardView(gameState: self.$gameState)
+                    .scaledToFill()
             }
         }
         

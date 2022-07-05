@@ -13,10 +13,38 @@ import GameKit
 class GameManager: NSObject, GKLocalPlayerListener, ObservableObject {
     
     @Published var games: [String:GameState] = [:]
+    private var matches: [String:GKTurnBasedMatch] = [:]
     
-    override init() {
-        super.init()
+    func register() {
         GKLocalPlayer.local.register(self)
+    }
+    
+    func loadMatches() {
+        GKTurnBasedMatch.loadMatches { matches, error in
+            guard matches != nil else {
+                return
+            }
+            
+            for match in matches! {
+                self.matches[match.matchID] = match
+                if let data = match.matchData {
+                    if let gameState = try? GameState.decode(data) {
+                        self.games[match.matchID] = gameState
+                    }
+                }
+            }
+        }
+    }
+    
+    func remove(matchId: String) {
+        if let match = self.matches[matchId] {
+            match.remove(completionHandler: {error in
+                if error == nil {
+                    self.matches.removeValue(forKey: matchId)
+                    self.games.removeValue(forKey: matchId)
+                }
+            })
+        }
     }
     
     func player(_ player: GKPlayer, receivedTurnEventFor match: GKTurnBasedMatch, didBecomeActive: Bool) {
@@ -43,5 +71,6 @@ class GameManager: NSObject, GKLocalPlayerListener, ObservableObject {
         }
         
         self.games[match.matchID] = gameState
+        self.matches[match.matchID] = match
     }
 }

@@ -27,10 +27,10 @@ struct BoardView: View {
                                     PieceView(piece: .constant(piece))
                                         .padding(3)
                                 }
-                                else if validMoves.contains(position) {
+                                else if self.gameState.isPlayerMove && validMoves.contains(position) {
                                     Image(systemName: "xmark")
                                         .onTapGesture {
-                                            if !self.gameState.tryPmove(position: position) {
+                                            if !self.gameState.tryMove(position: position) {
                                                 print("Invalid Move", position)
                                             }
                                         }
